@@ -6,6 +6,7 @@ import (
 	configs "sqs/config"
 	"sqs/db"
 	"sqs/model"
+	"time"
 )
 
 type SubHandler struct {
@@ -20,15 +21,19 @@ func NewSubHandler(config *configs.Config, db *db.DB) *SubHandler {
 	}
 }
 func (s *SubHandler) HandleBounce(body model.Body) {
-	emailBounceLog := model.EmailBounceLog{
-		MessageID: body.Message.Mail.CommonHeaders.MessageID,
-		SourceIP:  body.Message.Mail.SourceIp,
-		Subject:   body.Message.Mail.CommonHeaders.Subject,
-		From:      body.Message.Mail.CommonHeaders.From[0],
-		To:        body.Message.Mail.CommonHeaders.To[0],
+
+	mailSendDatetime, err := time.Parse(time.RFC3339, body.Message.Mail.Timestamp)
+
+	emailBounceLog := &model.EmailBounceLog{
+		MessageID:        body.Message.Mail.CommonHeaders.MessageID,
+		SourceIP:         body.Message.Mail.SourceIp,
+		Subject:          body.Message.Mail.CommonHeaders.Subject,
+		From:             body.Message.Mail.CommonHeaders.From[0],
+		To:               body.Message.Mail.CommonHeaders.To[0],
+		MailSendDatetime: &mailSendDatetime,
 	}
 
-	err := s.DB.Writer.Find(&model.EmailBounceLog{}).Error
+	err = s.DB.Writer.Find(&model.EmailBounceLog{}).Error
 	if err != nil {
 		fmt.Print("find err: ", err.Error())
 	}
@@ -36,6 +41,8 @@ func (s *SubHandler) HandleBounce(body model.Body) {
 	jsonMarshal, _ := json.Marshal(emailBounceLog)
 	fmt.Println(string(jsonMarshal))
 
-	s.DB.Writer.Create(emailBounceLog)
+	if err := s.DB.Writer.Debug().Create(emailBounceLog).Error; err != nil {
+		fmt.Print("crete email_bounce_lobs err: ", err.Error())
+	}
 
 }
