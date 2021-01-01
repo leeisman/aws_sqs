@@ -1,4 +1,4 @@
-module sqs
+module aws_sqs
 
 go 1.15
 
