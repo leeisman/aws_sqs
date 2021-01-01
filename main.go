@@ -5,12 +5,15 @@ import (
 	db2 "aws_sqs/db"
 	"aws_sqs/handler"
 	"aws_sqs/subscriber"
+	"fmt"
 )
 
 func main() {
 
 	config := configs.NewConfig()
+	fmt.Println(config)
 	db := db2.NewDB(config)
+	fmt.Println(db)
 
 	sqsSubscribeProcess := subscriber.NewSubscriber(config)
 	Handlers := handler.NewSubHandler(config, db)
