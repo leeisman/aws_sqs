@@ -4,7 +4,7 @@ import (
 	configs "aws_sqs/config"
 	db2 "aws_sqs/db"
 	"aws_sqs/handler"
-	subscriber "aws_sqs/subscriber"
+	"aws_sqs/subscriber"
 )
 
 func main() {
