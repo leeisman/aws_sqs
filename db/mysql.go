@@ -1,6 +1,7 @@
 package db
 
 import (
+	configs "aws_sqs/config"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
@@ -8,7 +9,6 @@ import (
 	"gorm.io/gorm/logger"
 	"log"
 	"os"
-	configs "sqs/config"
 	"time"
 )
 

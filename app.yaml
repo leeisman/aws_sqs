@@ -5,4 +5,4 @@ mysql:
   db_name: "anytime_prod"
 
 sqs:
-  qURL: "https://sqs.us-west-2.amazonaws.com/590351187300/ses-bounces-queue"
+  qURL: "https://aws_sqs.us-west-2.amazonaws.com/590351187300/ses-bounces-queue"

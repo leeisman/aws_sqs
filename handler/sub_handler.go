@@ -1,11 +1,11 @@
 package handler
 
 import (
+	configs "aws_sqs/config"
+	"aws_sqs/db"
+	"aws_sqs/model"
 	"encoding/json"
 	"fmt"
-	configs "sqs/config"
-	"sqs/db"
-	"sqs/model"
 	"time"
 )
 

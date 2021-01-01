@@ -6,8 +6,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
-	configs "sqs/config"
-	"sqs/model"
+	configs "aws_sqs/config"
+	"aws_sqs/model"
 )
 
 type Subscriber struct {

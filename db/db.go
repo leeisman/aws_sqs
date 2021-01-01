@@ -1,8 +1,8 @@
 package db
 
 import (
+	configs "aws_sqs/config"
 	"gorm.io/gorm"
-	configs "sqs/config"
 )
 
 type DB struct {
