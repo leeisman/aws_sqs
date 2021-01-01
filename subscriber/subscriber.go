@@ -1,13 +1,13 @@
 package subscriber
 
 import (
+	configs "aws_sqs/config"
+	"aws_sqs/model"
 	"encoding/json"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
-	configs "aws_sqs/config"
-	"aws_sqs/model"
 )
 
 type Subscriber struct {
@@ -29,22 +29,23 @@ func (s *Subscriber) Subscribe() {
 	}))
 	svc := sqs.New(sess)
 	qURL := s.Config.SQS.QURL
+	sqsReceiveMessageInput := &sqs.ReceiveMessageInput{
+		AttributeNames: []*string{
+			aws.String(sqs.MessageSystemAttributeNameSentTimestamp),
+		},
+		MessageAttributeNames: []*string{
+			aws.String(sqs.QueueAttributeNameAll),
+		},
+		QueueUrl:            &qURL,
+		MaxNumberOfMessages: aws.Int64(10),
+		VisibilityTimeout:   aws.Int64(60), // 60 seconds
+		WaitTimeSeconds:     aws.Int64(0),
+	}
 	for {
-		result, err := svc.ReceiveMessage(&sqs.ReceiveMessageInput{
-			AttributeNames: []*string{
-				aws.String(sqs.MessageSystemAttributeNameSentTimestamp),
-			},
-			MessageAttributeNames: []*string{
-				aws.String(sqs.QueueAttributeNameAll),
-			},
-			QueueUrl:            &qURL,
-			MaxNumberOfMessages: aws.Int64(10),
-			VisibilityTimeout:   aws.Int64(60), // 60 seconds
-			WaitTimeSeconds:     aws.Int64(0),
-		})
+		result, err := svc.ReceiveMessage(sqsReceiveMessageInput)
 		if err != nil {
 			fmt.Println("Error", err)
-			return
+			continue
 		}
 		if len(result.Messages) == 0 {
 			fmt.Println("Received no messages")
