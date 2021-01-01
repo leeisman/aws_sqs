@@ -1,0 +1,8 @@
+mysql:
+  ip: "127.0.0.1"
+  username: "root"
+  password: "root"
+  db_name: "anytime"
+
+sqs:
+  qURL: "https://sqs.us-west-2.amazonaws.com/590351187300/ses-bounces-queue"

@@ -6,17 +6,19 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
+	configs "sqs/config"
 	"sqs/model"
 )
 
-const SQSURL = "https://sqs.us-west-2.amazonaws.com/590351187300/ses-bounces-queue"
-
 type Subscriber struct {
 	BounceReceive chan model.Body
+	Config        *configs.Config
 }
 
-func NewSubscriber() *Subscriber {
-	sub := &Subscriber{}
+func NewSubscriber(config *configs.Config) *Subscriber {
+	sub := &Subscriber{
+		Config: config,
+	}
 	sub.BounceReceive = make(chan model.Body, 0)
 	return sub
 }
@@ -26,7 +28,7 @@ func (s *Subscriber) Subscribe() {
 		SharedConfigState: session.SharedConfigEnable,
 	}))
 	svc := sqs.New(sess)
-	qURL := SQSURL
+	qURL := s.Config.SQS.QURL
 	for {
 		result, err := svc.ReceiveMessage(&sqs.ReceiveMessageInput{
 			AttributeNames: []*string{
