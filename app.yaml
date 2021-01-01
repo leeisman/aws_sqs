@@ -1,8 +1,8 @@
 mysql:
-  ip: "127.0.0.1"
-  username: "root"
-  password: "root"
-  db_name: "anytime"
+  ip: "172.20.112.4"
+  username: "anytime_prod"
+  password: "g2a0w9e6O3ja5iik"
+  db_name: "anytime_prod"
 
 sqs:
   qURL: "https://sqs.us-west-2.amazonaws.com/590351187300/ses-bounces-queue"
