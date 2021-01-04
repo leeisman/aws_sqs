@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	Mysql Mysql `mapstructure:"mysql",yaml:"mysql,omitempty"`
-	SQS   SQS   `mapstructure:"aws_sqs",yaml:"aws_sqs,omitempty"`
+	Mysql  Mysql  `mapstructure:"mysql",yaml:"mysql,omitempty"`
+	AwsSQS AwsSQS `mapstructure:"aws_sqs",yaml:"aws_sqs,omitempty"`
 }
 
 type Mysql struct {
@@ -18,7 +18,7 @@ type Mysql struct {
 	Dbname   string `mapstructure:"db_name,yaml:"db_name,omitempty"`
 }
 
-type SQS struct {
+type AwsSQS struct {
 	QURL string `mapstructure:"qURL",yaml:"qURL,omitempty"`
 }
 

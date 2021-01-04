@@ -28,7 +28,7 @@ func (s *Subscriber) Subscribe() {
 		SharedConfigState: session.SharedConfigEnable,
 	}))
 	svc := sqs.New(sess)
-	qURL := s.Config.SQS.QURL
+	qURL := s.Config.AwsSQS.QURL
 	sqsReceiveMessageInput := &sqs.ReceiveMessageInput{
 		AttributeNames: []*string{
 			aws.String(sqs.MessageSystemAttributeNameSentTimestamp),
